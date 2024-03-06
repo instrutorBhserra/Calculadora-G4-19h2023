@@ -28,3 +28,39 @@ function fillTd(row, value, pos){
     const td = row.querySelector(`td:nth-child(${pos})`);
     td.innerHTML = value;
 }
+function fillD20(row, value){
+    fillTd(row, value, 3);
+}
+function fillMod(row, value){
+    fillTd(row, value, 4);
+}
+function fillTotal(row, value){
+    fillTd(row, value, 5);
+}
+// Get functions
+function getBase(row){
+    const input = row.querySelector('td:nth-child(2)>input');
+    return parseInt(input.value);
+}
+// SetUp functions
+function setupRow(row) {
+    // Get inital values;
+    const base = getBase(row);
+    if ( base === "" ) return;
+    
+    // Calc values
+    const dice = rollDice();
+    const mod = calcMod(dice);
+    const total = calcTotal(base, mod);
+
+    // Fill values
+    fillD20(row, dice);
+    fillMod(row, mod);
+    fillTotal(row, total);
+}
+function setupAll(){
+    const all = document.querySelectorAll('.entryRow');
+    for ( const tr of all ){
+        setupRow(tr);
+    }
+}
